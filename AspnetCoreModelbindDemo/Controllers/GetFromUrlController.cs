@@ -16,6 +16,10 @@ namespace AspnetCoreModelbindDemo.Controllers
             return Content("FromUrl");
         }
 
+        /// <summary>
+        /// /fromurl/test?name=mjzhou
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Test()
         {
             var name = Request.Query["name"];
@@ -26,25 +30,31 @@ namespace AspnetCoreModelbindDemo.Controllers
         {
             return Content(name);
         }
-        public IActionResult Test2([FromQuery]string id)
+        public IActionResult Test2([FromQuery(Name = "id")]string bh)
         {
-            return Content(id);
+            return Content(bh);
         }
 
-        [Route("FromUrl/test3/{name}/{id}")]
-        public IActionResult Test3(string name, int id)
+        public IActionResult Test3()
         {
-            return Content($"{name}/{id}");
+            var path = Request.Path;
+            return Content(path);
         }
 
-        [HttpGet("FromUrl/test4/{name}/{id}")]
+        [Route("FromUrl/test4/{name}/{id}")]
         public IActionResult Test4(string name, int id)
         {
             return Content($"{name}/{id}");
         }
 
         [HttpGet("FromUrl/test5/{name}/{id}")]
-        public IActionResult Test5([FromRoute(Name ="name")]string xm, [FromRoute(Name = "id")]int bh)
+        public IActionResult Test5(string name, int id)
+        {
+            return Content($"{name}/{id}");
+        }
+
+        [Route("FromUrl/test6/{name}/{id}")]
+        public IActionResult Test6([FromRoute(Name ="name")]string xm, [FromRoute(Name = "id")]int bh)
         {
             return Content($"{xm}/{bh}");
         }
